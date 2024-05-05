@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "time tally extension",
+    "version": "1.0.0",
+    "description": "This is extension used to track runtime for a particular website",
+    "action": {
+        "default_title": "Click me",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "bookmarks"
+    ],
+    "options_page": "options.html",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+          "matches": ["https://*.google.com/*"],
+          "js": ["contentScripts.js"]
+        }
+    ]
+}
