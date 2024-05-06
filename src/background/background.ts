@@ -6,3 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.bookmarks.onCreated.addListener(() => {
     console.log('i just bookmarked this page')
 })
+
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    console.log('Tab with ID', activeInfo.tabId, 'is now active.');
+});
