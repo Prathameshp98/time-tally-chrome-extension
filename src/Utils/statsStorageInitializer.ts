@@ -2,16 +2,21 @@
 function statsStorageInitializer(){
 
     const newObj = {
-        stats: [],
-        settings: {
-            isblocked: false,
-            blockedOrigins: [],
-            currentTimeStamp: 0
-        }
+        data: {
+            stats: [],
+            settings: {
+                isblocked: false,
+                blockedOrigins: [],
+                currentTimeStamp: 0
+            }
+        }     
     }
 
     chrome.storage.local.set(newObj, function() {
-        console.log('Initialised the stats');   
+        
+        chrome.storage.local.get('data', function(result) {
+            console.log('Initialised the stats', result.data); 
+        })
     });
 
 }

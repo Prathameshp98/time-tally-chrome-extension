@@ -4,5 +4,5 @@ export default interface StatProps {
     name: string,
     time: number,
     maxTime: number,
-    lastUsed: string
+    lastUsed: number
 }

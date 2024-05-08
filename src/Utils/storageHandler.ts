@@ -13,14 +13,13 @@ function storageHandler(domain: string) {
 
         let statsArray: StatProps[] = [];
 
-        console.log(result)
-
         // inilialises the storage if its empty, if not then it stores it
-        !result.stats ? statsStorageInitializer() : statsArray = result.stats;
+        !result.data ? statsStorageInitializer() : statsArray = result.data.stats;
         
         // checks if the user visit the same origin again else it returns false
         let obj: boolean | StatProps = isDuplicate(statsArray, domain);
 
+        // if newly visited the website
         if(!obj){
 
             const UID = new ShortUniqueId({ length: 15 });
@@ -29,28 +28,25 @@ function storageHandler(domain: string) {
                 name: domain,
                 time: 0,
                 maxTime: 0,
-                lastUsed: new Date().toLocaleString()
+                lastUsed: new Date().getTime()
             };
-        } 
 
-        const currentTimeStamp = new Date().getTime();
-        console.log(currentTimeStamp, obj);
+            if(typeof obj !== 'boolean'){
+                statsArray.push(obj);
+            }
+            setStorage(statsArray);
 
-        // chrome.storage.local.get('data', function(result) {
+        } else {
+            // sets the variable to current time stamp if the origin is already present in the storage
+            // in order to update lastUsed
+            const currentTimeStamp = new Date().getTime();
+
+            if(typeof obj !== 'boolean'){
+                setStorage(statsArray, currentTimeStamp, obj.name);
+            }
             
-        //     chrome.storage.local.set({ settings: { ...result } }, function() {
-
-        //     })
-        // })
-
-
-
-        if(typeof obj !== 'boolean'){
-            // timer(obj);
-            statsArray.push(obj);
         }
-        setStorage(statsArray);
-        
+
     });
 
 }
