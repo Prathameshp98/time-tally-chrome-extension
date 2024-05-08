@@ -67,10 +67,11 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
 
                     chrome.storage.local.get('data', function (result) {
                         // Handle missing data or stats
-                        let statsData = result.data.stats;
+                        
                         if(!(result.data && result.data.stats)){
-                            // storageHandler(previousDomain);
+                            storageHandler(previousDomain);
                         }
+                        let statsData = result?.data?.stats;
 
                         // Call your setStorage function here
                         setStorage(statsData, currentTimeStamp, previousDomain, true);
@@ -96,7 +97,7 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
                 console.log('Entered tab domain:', currentDomain);
 
                 // Call your storageHandler function here
-                // storageHandler(currentDomain);
+                storageHandler(currentDomain);
             } catch (error) {
                 console.error('Error parsing current tab URL:', error);
             }

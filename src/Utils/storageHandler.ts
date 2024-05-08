@@ -22,14 +22,22 @@ function storageHandler(domain: string) {
         // if newly visited the website
         if(!obj){
 
-            const UID = new ShortUniqueId({ length: 15 });
+            // const UID = new ShortUniqueId({ length: 15 });
+            // obj = {
+            //     id: UID.rnd(),
+            //     name: domain,
+            //     time: 0,
+            //     maxTime: 0,
+            //     lastUsed: new Date().getTime()
+            // };
+
             obj = {
-                id: UID.rnd(),
+                id: Math.random(),
                 name: domain,
                 time: 0,
                 maxTime: 0,
                 lastUsed: new Date().getTime()
-            };
+            }
 
             if(typeof obj !== 'boolean'){
                 statsArray.push(obj);
