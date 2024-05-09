@@ -1,6 +1,6 @@
 
-import setStorage from "../Utils/setStorage";
-import storageHandler from "../Utils/storageHandler";
+import setStorage from "../Utils/extension/setStorage";
+import storageHandler from "../Utils/extension/storageHandler";
 
 chrome.runtime.onInstalled.addListener(() => {
     console.log("hello laoded");
@@ -49,9 +49,31 @@ let previousTabId = null;
 chrome.tabs.onActivated.addListener(function (activeInfo) {
     const currentTabId = activeInfo.tabId;
 
+    // Get the currently active tab's URL and domain
+    chrome.tabs.get(currentTabId, async function (currentTab) {
+        if (chrome.runtime.lastError) {
+            console.error('Error fetching current tab: ', chrome.runtime.lastError.message);
+            return;
+        }
+
+        if (currentTab && currentTab.url) {
+            try {
+                // Extract the domain of the entered tab
+                const currentDomain = new URL(currentTab.url).hostname;
+                console.log('Entered tab domain:', currentDomain);
+
+                // Call your storageHandler function here
+                await storageHandler(currentDomain);
+                
+            } catch (error) {
+                console.error('Error parsing current tab URL:', error);
+            }
+        }
+    });
+
     // If there was a previously active tab, get its URL and domain
     if (previousTabId !== null && previousTabId !== currentTabId) {
-        chrome.tabs.get(previousTabId, function (previousTab) {
+        chrome.tabs.get(previousTabId, async function (previousTab) {
             if (chrome.runtime.lastError) {
                 console.error('Error fetching previous tab: ', chrome.runtime.lastError.message);
                 return;
@@ -65,16 +87,16 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
                     const previousDomain = new URL(previousTab.url).hostname;
                     console.log('Left tab domain:', previousDomain);
 
-                    chrome.storage.local.get('data', function (result) {
+                    chrome.storage.local.get('data', async function (result) {
                         // Handle missing data or stats
                         
                         if(!(result.data && result.data.stats)){
-                            storageHandler(previousDomain);
+                            await storageHandler(previousDomain);
                         }
                         let statsData = result?.data?.stats;
 
                         // Call your setStorage function here
-                        setStorage(statsData, currentTimeStamp, previousDomain, true);
+                        await setStorage(statsData, currentTimeStamp, previousDomain, true);
                     });
                 } catch (error) {
                     console.error('Error parsing previous tab URL:', error);
@@ -82,27 +104,6 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
             }
         });
     }
-
-    // Get the currently active tab's URL and domain
-    chrome.tabs.get(currentTabId, function (currentTab) {
-        if (chrome.runtime.lastError) {
-            console.error('Error fetching current tab: ', chrome.runtime.lastError.message);
-            return;
-        }
-
-        if (currentTab && currentTab.url) {
-            try {
-                // Extract the domain of the entered tab
-                const currentDomain = new URL(currentTab.url).hostname;
-                console.log('Entered tab domain:', currentDomain);
-
-                // Call your storageHandler function here
-                storageHandler(currentDomain);
-            } catch (error) {
-                console.error('Error parsing current tab URL:', error);
-            }
-        }
-    });
 
     // Update the previously active tab ID
     previousTabId = currentTabId;

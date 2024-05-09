@@ -1,5 +1,5 @@
 
-function statsStorageInitializer(){
+async function statsStorageInitializer(){
 
     const newObj = {
         data: {
@@ -12,9 +12,9 @@ function statsStorageInitializer(){
         }     
     }
 
-    chrome.storage.local.set(newObj, function() {
+    chrome.storage.local.set(newObj, async function() {
         
-        chrome.storage.local.get('data', function(result) {
+        chrome.storage.local.get('data', async function(result) {
             console.log('Initialised the stats', result.data); 
         })
     });

@@ -1,5 +1,5 @@
 
-import StatProps from '../Props/stats';
+import StatProps from '../../Props/stats';
 
 function isDuplicate(statsArray: StatProps[], domain: string): boolean | StatProps {
 

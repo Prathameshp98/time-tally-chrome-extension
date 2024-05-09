@@ -1,7 +1,7 @@
 
-import storageHandler from "../Utils/storageHandler";
-import urlGetter from "../Utils/urlGetter";
-import storageClear from "../Utils/clearStorage";
+import storageHandler from "../Utils/extension/storageHandler";
+import urlGetter from "../Utils/extension/urlGetter";
+import storageClear from "../Utils/extension/clearStorage";
 
 //global vars
 let time: number;

@@ -1,20 +1,22 @@
 
 import ShortUniqueId from 'short-unique-id';
-import StatProps from '../Props/stats';
+import StatProps from '../../Props/stats';
 
 import isDuplicate from './isDuplicate';
 import statsStorageInitializer from './statsStorageInitializer';
 import setStorage from './setStorage';
 
+import generateRandomId from '../general/generateRandomId';
 
-function storageHandler(domain: string) {
 
-    chrome.storage.local.get('data', function(result) {
+async function storageHandler(domain: string) {
+
+    chrome.storage.local.get('data', async function(result) {
 
         let statsArray: StatProps[] = [];
 
         // inilialises the storage if its empty, if not then it stores it
-        !result.data ? statsStorageInitializer() : statsArray = result.data.stats;
+        !result.data ? await statsStorageInitializer() : statsArray = result.data.stats;
         
         // checks if the user visit the same origin again else it returns false
         let obj: boolean | StatProps = isDuplicate(statsArray, domain);
@@ -22,17 +24,8 @@ function storageHandler(domain: string) {
         // if newly visited the website
         if(!obj){
 
-            // const UID = new ShortUniqueId({ length: 15 });
-            // obj = {
-            //     id: UID.rnd(),
-            //     name: domain,
-            //     time: 0,
-            //     maxTime: 0,
-            //     lastUsed: new Date().getTime()
-            // };
-
             obj = {
-                id: Math.random(),
+                id: await generateRandomId(20),
                 name: domain,
                 time: 0,
                 maxTime: 0,
@@ -42,7 +35,7 @@ function storageHandler(domain: string) {
             if(typeof obj !== 'boolean'){
                 statsArray.push(obj);
             }
-            setStorage(statsArray);
+            await setStorage(statsArray);
 
         } else {
             // sets the variable to current time stamp if the origin is already present in the storage
@@ -50,7 +43,7 @@ function storageHandler(domain: string) {
             const currentTimeStamp = new Date().getTime();
 
             if(typeof obj !== 'boolean'){
-                setStorage(statsArray, currentTimeStamp, obj.name);
+                await setStorage(statsArray, currentTimeStamp, obj.name);
             }
             
         }

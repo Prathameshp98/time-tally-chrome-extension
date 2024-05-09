@@ -1,6 +1,6 @@
 
 export default interface StatProps {
-    id: number,
+    id: string,
     name: string,
     time: number,
     maxTime: number,

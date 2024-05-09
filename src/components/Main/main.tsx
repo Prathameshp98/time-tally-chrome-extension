@@ -1,7 +1,7 @@
 
 import React from "react";
 
-import storageClear from "../../Utils/clearStorage";
+import storageClear from "../../Utils/extension/clearStorage";
 
 const Main = () => {
 
