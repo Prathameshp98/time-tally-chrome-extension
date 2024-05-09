@@ -7,7 +7,7 @@ const Main = () => {
 
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         console.log("clicked")
-        storageClear();
+        storageClear.clearAllStorage();
     };
 
     return (

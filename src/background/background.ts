@@ -2,47 +2,6 @@
 import setStorage from "../Utils/extension/setStorage";
 import storageHandler from "../Utils/extension/storageHandler";
 
-chrome.runtime.onInstalled.addListener(() => {
-    console.log("hello laoded");
-})
-
-chrome.bookmarks.onCreated.addListener(() => {
-    console.log('i just bookmarked this page')
-})
-
-// let previousTabId = null;
-
-// chrome.tabs.onActivated.addListener(function(activeInfo) {
-
-//     const currentTimeStamp = new Date().getTime();
-
-//     // If there was a previously active tab, get its URL
-//     if (previousTabId !== null) {
-//         chrome.tabs.get(previousTabId, function(tab) {
-//             if (chrome.runtime.lastError) {
-//                 console.error(chrome.runtime.lastError.message);
-//                 return;
-//             }
-            
-//             const domain = (new URL(tab.url)).hostname;
-//             console.log('Left tab URL:', domain);
-
-//             chrome.storage.local.get('data', function(result) {
-//                 const statsData = result.data.stats;
-
-//                 setStorage(statsData, currentTimeStamp, domain, true);
-//             })
-//         });
-//     }
-
-//     previousTabId = activeInfo.tabId;
-// });
-
-
-
-
-
-
 let previousTabId = null;
 
 // Listen for the tab activation event
