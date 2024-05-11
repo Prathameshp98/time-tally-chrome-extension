@@ -10,13 +10,13 @@ async function statsStorageInitializer(){
                 currentTimeStamp: 0
             }
         }     
-    }
+    };
 
     chrome.storage.local.set(newObj, async function() {
         
         chrome.storage.local.get('data', async function(result) {
             console.log('Initialised the stats', result.data); 
-        })
+        });
     });
 
 }
