@@ -2,6 +2,10 @@
     "manifest_version": 3,
     "name": "time tally extension",
     "version": "1.0.0",
+    "icons": {
+        "32": "./icons/clock-32.png",
+        "128": "./icons/clock-128.png"
+    },
     "description": "This is extension used to track runtime for a particular website",
     "action": {
         "default_title": "Click me",
