@@ -33,9 +33,9 @@ module.exports = {
                 test: /\.css$/i,
             },
             {
-                type: 'assets/resouces',
-                use: 'asset/resouce',
-                test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg|webp)$/,
+                type: 'asset/resource',
+                // use: 'asset/resource',
+                test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg|webp)$/i,
             }
         ]
     },

@@ -15,6 +15,9 @@ module.exports = {
       },
       colors: {
         'brand': '#F25220',
+      },
+      gap: {
+        '13': '3.25rem'
       }
     },
   },
