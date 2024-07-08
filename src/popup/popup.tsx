@@ -5,7 +5,7 @@ import '../assests/tailwind.css';
 import Main from '../components/Main/main';
 
 const app = (
-        <div className='w-full h-full p-2'>
+        <div className='w-full p-2'>
             <Main />
         </div>
     )

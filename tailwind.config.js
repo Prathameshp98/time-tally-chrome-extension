@@ -14,7 +14,7 @@ module.exports = {
         'full': '35rem',
       },
       colors: {
-        'brand': '#F25220',
+        'brand': '#fc546c',
       },
       gap: {
         '13': '3.25rem'

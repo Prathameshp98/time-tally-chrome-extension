@@ -1,7 +1,9 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import storageClear from "../../Utils/extension/clearStorage";
+import StatProps from "../../Props/stats";
+import getTimeDifference from "../../Utils/general/getTimeDifference";
 
 import Header from "../Header/Header";
 import Notification from "../Notification/Notification";
@@ -11,16 +13,54 @@ import Footer from "../Footer/Footer";
 
 const Main = () => {
 
+    const[showNotification, setShowNotification] = useState(true);
+    const[message, setMessage] = useState('');
+
+    useEffect(() => {
+        // Query the currently active tab in the current window
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs[0]?.url) {
+            const urlObject = new URL(tabs[0].url);
+            console.log(urlObject.hostname);
+
+            chrome.storage.local.get('data', async function(result) {
+
+                let statsArray: StatProps[] = [];
+                console.log(result)
+        
+                // inilialises the storage if its empty, if not then it stores it
+                if(result.data) {
+                    statsArray = result.data.stats;
+
+                    const isVisted = statsArray.filter(each => urlObject.hostname === each.name);
+                    if(isVisted.length){
+                        setMessage(`Hey, you have been here <strong>${getTimeDifference(isVisted[0].lastUsed, new Date().getTime())}</strong> ago.`);
+                    } else {
+                        setMessage('Hi, its your first visit on this website.');
+                    }
+                } else {
+                    setMessage('Hi, its your first visit on this website.');
+                }
+            })
+          }
+        });
+    }, []);
+
     // const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     //     console.log("clicked")
     //     storageClear.clearAllStorage();
     // };
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-fit">
             {/* <button className="border-2" onClick={handleClick}>Clear</button> */}
             <Header />
-            <Notification />
+            {showNotification && 
+                <Notification 
+                    setShowNotification={() => setShowNotification(false)}  
+                    message={message}
+                />
+            }
             <QuickSettings />
             <Figures />
             <Footer />
