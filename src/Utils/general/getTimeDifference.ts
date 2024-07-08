@@ -17,9 +17,9 @@ const getTimeDifference = (
     const seconds = Math.floor((diffInMs % msInMinute) / msInSecond);
 
     const timeStr =  hours < 24 ? `
-                        ${hours > 0 ? `${hours} hours,` : ``} 
-                        ${minutes ? `${minutes} minutes,` : ``}
-                        ${`${seconds} seconds`}
+                        ${hours > 0 ? `${hours} hrs,` : ``} 
+                        ${minutes ? `${minutes} mins,` : ``}
+                        ${`${seconds} secs`}
                     ` : 'a while'
   
     return timeStr;

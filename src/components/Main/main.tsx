@@ -17,18 +17,12 @@ const Main = () => {
     const[message, setMessage] = useState('');
 
     useEffect(() => {
-        // Query the currently active tab in the current window
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (tabs[0]?.url) {
             const urlObject = new URL(tabs[0].url);
-            console.log(urlObject.hostname);
-
             chrome.storage.local.get('data', async function(result) {
 
                 let statsArray: StatProps[] = [];
-                console.log(result)
-        
-                // inilialises the storage if its empty, if not then it stores it
                 if(result.data) {
                     statsArray = result.data.stats;
 
