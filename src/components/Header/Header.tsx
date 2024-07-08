@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip } from 'react-tooltip';
 
 import Branding from "../Branding/Branding";
 
@@ -9,11 +10,17 @@ const Header = () => {
         <div className="w-component h-12 m-2 rounded flex gap-13">
             <Branding />
             <div className="my-3">
-                <img 
-                    src={Setting}
-                    alt={'settings'}
-                    className="cursor-pointer"
-                />
+                <Tooltip id="setting" />
+                <a 
+                    data-tooltip-id="setting" 
+                    data-tooltip-content="Setting"
+                >
+                    <img 
+                        src={Setting}
+                        alt={'settings'}
+                        className="cursor-pointer"
+                    />
+                </a>
             </div>
         </div>
     )
