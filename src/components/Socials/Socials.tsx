@@ -16,7 +16,7 @@ const Socials = () => {
                 <img 
                     src={Github}
                     alt="github"
-                    className="w-9 h-9 mt-1 cursor-pointer"
+                    className="w-7 h-7 mt-3 cursor-pointer"
                 />
             </a> 
             <Tooltip id="star" />
@@ -28,7 +28,7 @@ const Socials = () => {
                 <img 
                     src={Star}
                     alt="star"
-                    className="w-9 h-9 mt-1 cursor-pointer"
+                    className="w-7 h-7 mt-3 cursor-pointer"
                 />
             </a>
         </div>

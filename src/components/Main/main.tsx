@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import storageClear from "../../Utils/extension/clearStorage";
 import StatProps from "../../Props/stats";
 import getTimeDifference from "../../Utils/general/getTimeDifference";
 
@@ -40,14 +39,8 @@ const Main = () => {
         });
     }, []);
 
-    // const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    //     console.log("clicked")
-    //     storageClear.clearAllStorage();
-    // };
-
     return (
         <div className="w-full h-fit">
-            {/* <button className="border-2" onClick={handleClick}>Clear</button> */}
             <Header />
             {showNotification && 
                 <Notification 

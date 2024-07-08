@@ -15,9 +15,15 @@ module.exports = {
       },
       colors: {
         'brand': '#fc546c',
+        'dark-grey': '#808080',
+        'grey-text': '#A9A9A9',
+        'light-grey': '#f9f9f9'
       },
       gap: {
         '13': '3.25rem'
+      },
+      borderWidth: {
+        '1': '1px'
       }
     },
   },
