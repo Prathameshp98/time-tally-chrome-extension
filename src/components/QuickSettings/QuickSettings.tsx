@@ -4,6 +4,7 @@ import { Tooltip } from 'react-tooltip';
 import './toggle.css';
 
 import clearStorage from "../../Utils/extension/clearStorage";
+import disableTracking from "../../Utils/extension/disableTracking";
 
 import Add from '../../static/icons/plus.png';
 import Dustbin from '../../static/icons/dustbin.png';
