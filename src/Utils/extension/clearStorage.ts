@@ -1,5 +1,5 @@
 
-import StatProps from "../../Props/stats";
+import StatProps from "../../Props/stats.d";
 
 async function clearAllStorage(){
     chrome.storage.local.clear(async function() {

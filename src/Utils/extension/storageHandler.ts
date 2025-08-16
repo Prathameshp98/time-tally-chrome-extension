@@ -1,6 +1,6 @@
 
 import ShortUniqueId from 'short-unique-id';
-import StatProps from '../../Props/stats';
+import StatProps from '../../Props/stats.d';
 
 import isDuplicate from './isDuplicate';
 import statsStorageInitializer from './statsStorageInitializer';
@@ -9,47 +9,57 @@ import setStorage from './setStorage';
 import generateRandomId from '../general/generateRandomId';
 
 
-async function storageHandler(domain: string) {
+async function storageHandler(domain: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get('data', async (result) => {
+            try {
+                if (chrome.runtime.lastError) {
+                    console.error('Error getting storage data:', chrome.runtime.lastError);
+                    reject(chrome.runtime.lastError);
+                    return;
+                }
 
-    chrome.storage.local.get('data', async function(result) {
+                let statsArray: StatProps[] = [];
 
-        let statsArray: StatProps[] = [];
+                // Initialize storage if it's empty, otherwise get existing stats
+                if (!result.data) {
+                    await statsStorageInitializer();
+                    statsArray = [];
+                } else {
+                    statsArray = result.data.stats || [];
+                }
+                
+                // Check if the user has visited this domain before
+                let existingEntry: boolean | StatProps = isDuplicate(statsArray, domain);
 
-        // inilialises the storage if its empty, if not then it stores it
-        !result.data ? await statsStorageInitializer() : statsArray = result.data.stats;
-        
-        // checks if the user visit the same origin again else it returns false
-        let obj: boolean | StatProps = isDuplicate(statsArray, domain);
+                // If this is a new website visit
+                if (!existingEntry) {
+                    const newEntry: StatProps = {
+                        id: await generateRandomId(20),
+                        name: domain,
+                        time: 0,
+                        maxTime: 0,
+                        lastUsed: new Date().getTime()
+                    };
 
-        // if newly visited the website
-        if(!obj){
+                    statsArray.push(newEntry);
+                    await setStorage(statsArray);
+                    resolve();
 
-            obj = {
-                id: await generateRandomId(20),
-                name: domain,
-                time: 0,
-                maxTime: 0,
-                lastUsed: new Date().getTime()
+                } else {
+                    // Update lastUsed timestamp for existing domain
+                    const currentTimeStamp = new Date().getTime();
+                    if (typeof existingEntry !== 'boolean') {
+                        await setStorage(statsArray, currentTimeStamp, existingEntry.name);
+                        resolve();
+                    }
+                }
+            } catch (error) {
+                console.error('Error in storageHandler:', error);
+                reject(error);
             }
-
-            if(typeof obj !== 'boolean'){
-                statsArray.push(obj);
-            }
-            await setStorage(statsArray);
-
-        } else {
-            // sets the variable to current time stamp if the origin is already present in the storage
-            // in order to update lastUsed
-            const currentTimeStamp = new Date().getTime();
-
-            if(typeof obj !== 'boolean'){
-                await setStorage(statsArray, currentTimeStamp, obj.name);
-            }
-            
-        }
-
+        });
     });
-
 }
 
 export default storageHandler;

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import StatProps from "../../Props/stats";
+import StatProps from "../../Props/stats.d";
 import getTimeDifference from "../../Utils/general/getTimeDifference";
 
 import Header from "../Header/Header";
